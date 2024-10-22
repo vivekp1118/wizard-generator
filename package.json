@@ -1,0 +1,27 @@
+{
+    "name": "wizard-generator",
+    "version": "1.0.0",
+    "description": "This is an cli tool which lets you create your onw template and generate files based on it.",
+    "main": "index.js",
+    "type": "module",
+    "scripts": {
+        "dev": "node index.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "test command": "",
+    "keywords": [
+        "cli",
+        "generator",
+        "scaffold",
+        "templates",
+        "boilerplate-generator"
+    ],
+    "author": "Vivek Prajapati",
+    "license": "ISC",
+    "dependencies": {
+        "inquirer": "^8.0.0"
+    },
+    "bin": {
+        "wizard": "./index.js"
+    }
+}
