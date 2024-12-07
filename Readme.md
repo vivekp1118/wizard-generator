@@ -51,17 +51,49 @@ Setting up the wizard in your project is a three-step process:
 #### 1. Config
 
 -   Run `wizard` in the project you want to set up Wizard for.
--   It will generate a wizard config for your project and a template directory to keep track of all your templates.
--   Add any code into your templates folder. Note that this code will replace the variables that you want to ask for in the template by wrapping them in `<<YourVariable>>`.
+-   It will generate a wizard config for your project and a `template` directory to keep track of all your templates.
 
-#### 2. Bind Template
+Here is the merged version of the two points, with clearer flow and instructions:
 
--   Run `wizard`
--   Select `configure template` -> `bind new template`
--   Enter the following variables:
-    -   **Template name**: What you want to call your template
-    -   **Starting path**: The path from where you want to start generating this template
-    -   **Variables**: Variables that will be asked during template generation
+---
+
+#### 2. Create and Bind Templates
+
+1. **Create Template Files**:
+
+    - Add any `code`, `file`, or `folder` that you want to use as a template inside your `templates` folder.
+    - Use placeholders for dynamic content:
+
+        - Wrap variables inside `<< >>` (e.g., `<<YourVariable>>`).
+        - Wrap file or folder names inside `[[ ]]` (e.g., `[[fileName]]`).
+
+        Example:
+
+        - **`[[serviceName]].controller.js`**:
+
+            ```javascript
+            // Controller for the <<serviceName>> service
+            const <<serviceName>>Service = require('./<<serviceName>>.service');
+
+            exports.getAll = async (req, res) => {
+              try {
+                const data = await <<serviceName>>Service.getAll();
+                res.json(data);
+              } catch (error) {
+                res.status(500).send(error.message);
+              }
+            };
+            ```
+
+-   **Register and Bind the Template**:
+    -   Run the following command to register the template:
+        ```bash
+        wizard configure -n
+        ```
+    -   During the registration process, you'll be prompted to:
+        -   **Select the directory** for your template (e.g., `templates/serviceTemplate`).
+        -   **Define the variables** used in your template (e.g., `serviceName`, `fileName`).
+        -   **Name the template** (e.g., `ServiceTemplate`).
 
 #### 3. Use Template
 
