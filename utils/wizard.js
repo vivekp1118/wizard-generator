@@ -1,51 +1,133 @@
+/**
+ * Wizard configuration utilities - manages wizard.json and configuration operations
+ * @module wizard
+ */
+
 import fs from "fs";
+import path from "path";
+import { logger } from "./common/logger.js";
 
-export const getWizardConfigObject = () => {
-    let wizardConfigObject = null;
-    if (fs.existsSync("./wizard.json")) {
-        wizardConfigObject = JSON.parse(fs.readFileSync("./wizard.json", "utf-8"));
+// Configuration file paths
+const CONFIG_PATHS = {
+  wizardConfig: "wizard.json",
+  templatesDir: "templates"
+};
+
+/**
+ * Retrieves the wizard configuration object from wizard.json
+ * 
+ * @returns {Object} The wizard configuration object
+ * @throws {Error} If the wizard.json file cannot be found or parsed
+ */
+export function getWizardConfigObject() {
+  try {
+    const configPath = CONFIG_PATHS.wizardConfig;
+    
+    if (!fs.existsSync(configPath)) {
+      throw new Error(`Configuration file ${configPath} not found`);
     }
-    if (!wizardConfigObject) {
-        console.log("wizard.json file not found!!");
-        process.exit();
-    }
+    
+    const configContent = fs.readFileSync(configPath, "utf-8");
+    const wizardConfigObject = JSON.parse(configContent);
+    
     return wizardConfigObject;
-};
+  } catch (error) {
+    logger.error(`Failed to read wizard configuration: ${error.message}`);
+    throw new Error(`Could not load wizard configuration: ${error.message}`);
+  }
+}
 
-export const generateTemplateCode = (templateName) => {
-    let newTemplateName = templateName
-        .toLowerCase()
-        .replace("-", " ")
-        .replace("_", " ")
-        .split(" ")
-        .map((item) => item[0])
-        .join("");
+/**
+ * Generates a template code from a template name
+ * Creates an abbreviation from the name and adds a random number
+ * 
+ * @param {string} templateName - The name of the template
+ * @returns {string} A generated code for the template
+ */
+export function generateTemplateCode(templateName) {
+  if (!templateName) {
+    return `template${Date.now()}`;
+  }
+  
+  // Create abbreviation from name
+  const newTemplateName = templateName
+    .toLowerCase()
+    .replace(/[-_]/g, " ") // Replace all hyphens and underscores
+    .split(" ")
+    .filter(Boolean) // Filter out empty segments
+    .map(item => item[0] || "")
+    .join("");
 
-    return newTemplateName + Math.floor(Math.random(3) * 1000);
-};
+  // Add random number for uniqueness
+  return newTemplateName + Math.floor(Math.random() * 1000);
+}
 
-export const isWizardConfigAvailable = () => {
+/**
+ * Checks if the wizard configuration file exists
+ * 
+ * @returns {boolean} True if wizard.json exists, false otherwise
+ */
+export function isWizardConfigAvailable() {
+  try {
     const list = fs.readdirSync("./");
-    if (list.includes("wizard.json")) {
-        return true;
-    }
-};
+    return list.includes(CONFIG_PATHS.wizardConfig);
+  } catch (error) {
+    logger.error(`Error checking for wizard configuration: ${error.message}`);
+    return false;
+  }
+}
 
-export const generateWizardConfig = async (isUsingSrc) => {
+/**
+ * Generates a new wizard configuration file
+ * 
+ * @async
+ * @param {boolean} isUsingSrc - Whether the project uses a src directory
+ * @returns {Promise<void>}
+ * @throws {Error} If there's an error creating the config file or templates directory
+ */
+export async function generateWizardConfig(isUsingSrc) {
+  try {
+    // Create config object
+    const configObject = {
+      path: isUsingSrc ? "./src" : "./",
+      templatePath: `./${CONFIG_PATHS.templatesDir}`,
+      templates: []
+    };
+    
+    // Write config file
     fs.writeFileSync(
-        "wizard.json",
-        JSON.stringify(
-            {
-                path: isUsingSrc ? "./src" : "./",
-                templatePath: "./templates",
-                templates: []
-            },
-            null,
-            4
-        )
+      CONFIG_PATHS.wizardConfig,
+      JSON.stringify(configObject, null, 4)
     );
-    if (!fs.existsSync("./templates")) fs.mkdirSync("./templates");
-};
+    
+    // Create templates directory if it doesn't exist
+    const templatesDir = path.resolve(CONFIG_PATHS.templatesDir);
+    if (!fs.existsSync(templatesDir)) {
+      fs.mkdirSync(templatesDir, { recursive: true });
+    }
+    
+    logger.success("Wizard configuration created successfully");
+  } catch (error) {
+    logger.error(`Failed to generate wizard configuration: ${error.message}`);
+    throw new Error(`Could not generate wizard configuration: ${error.message}`);
+  }
+}
 
-export const updateWizardConfig = (wizardObj) =>
-    fs.writeFileSync("wizard.json", JSON.stringify(wizardObj, null, 4));
+/**
+ * Updates the wizard configuration file with new settings
+ * 
+ * @param {Object} wizardObj - The updated wizard configuration object
+ * @throws {Error} If there's an error updating the configuration file
+ */
+export function updateWizardConfig(wizardObj) {
+  try {
+    fs.writeFileSync(
+      CONFIG_PATHS.wizardConfig, 
+      JSON.stringify(wizardObj, null, 4)
+    );
+    logger.debug("Wizard configuration updated");
+  } catch (error) {
+    logger.error(`Failed to update wizard configuration: ${error.message}`);
+    throw new Error(`Could not update wizard configuration: ${error.message}`);
+  }
+}

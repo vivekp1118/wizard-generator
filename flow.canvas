@@ -1,0 +1,35 @@
+{
+	"nodes":[
+		{"id":"578b84272fb9791b","type":"group","x":-840,"y":-705,"width":3280,"height":965,"color":"6","label":"Configuartion Part "},
+		{"id":"5fd51831a7cd7c0f","type":"text","text":"index.js","x":-820,"y":-680,"width":250,"height":50},
+		{"id":"fdf85042f5819851","type":"text","text":"check for config ","x":-500,"y":-685,"width":250,"height":60},
+		{"id":"2ede09e8ada8f102","type":"text","text":"- check if arguments found","x":-120,"y":-600,"width":250,"height":80},
+		{"id":"8c17ae457b47cb00","type":"text","text":"- wizedConfig() \n- Initialize config exit  ","x":-120,"y":-880,"width":250,"height":90,"color":"1"},
+		{"id":"88cb8d7891db0429","type":"text","text":"-  serviceManager()","x":310,"y":-880,"width":250,"height":60},
+		{"id":"3575975c51fc8237","type":"text","text":"- mainOperationChoice()\n- Show main operations choice\n- select operation","x":310,"y":-560,"width":360,"height":140},
+		{"id":"d9993707c9d20d71","type":"text","text":"configureNewTemplate()","x":2040,"y":-620,"width":250,"height":60,"color":"1"},
+		{"id":"04f18cf271fc8da6","type":"text","text":"removeTemplate()","x":2040,"y":-480,"width":250,"height":60,"color":"1"},
+		{"id":"22c18d61fd01618a","type":"text","text":"### modify existing template\n-  listAllConfiguredTemplates()\n-  select Template ","x":1976,"y":-182,"width":378,"height":160,"color":"1"},
+		{"id":"feb0f6eb3addd595","type":"text","text":"### Choose from here \n- generate \n- list\n- configure\n- remove\n","x":640,"y":-1080,"width":290,"height":200},
+		{"id":"c6b9837d0ecff3fa","type":"text","text":"performConfiguration()","x":1565,"y":-190,"width":280,"height":50},
+		{"id":"3a94e07c7c8f5d12","type":"text","text":"","x":1390,"y":-980,"width":250,"height":60},
+		{"id":"d46d7d8b19666935","type":"text","text":"### Choose from here\n-  configure new template\n-  remove template,\n-  modify existing template\n","x":990,"y":-340,"width":400,"height":200}
+	],
+	"edges":[
+		{"id":"b679e776937ace69","fromNode":"5fd51831a7cd7c0f","fromSide":"right","toNode":"fdf85042f5819851","toSide":"left"},
+		{"id":"30af38101e8a0c51","fromNode":"fdf85042f5819851","fromSide":"right","toNode":"2ede09e8ada8f102","toSide":"left","color":"4","label":"YES"},
+		{"id":"50fb3550e9692374","fromNode":"fdf85042f5819851","fromSide":"right","toNode":"8c17ae457b47cb00","toSide":"left","color":"4","label":"NO"},
+		{"id":"fa0e967846c1fba7","fromNode":"2ede09e8ada8f102","fromSide":"right","toNode":"88cb8d7891db0429","toSide":"left","color":"4","label":"YES"},
+		{"id":"498305420c9916ca","fromNode":"2ede09e8ada8f102","fromSide":"right","toNode":"3575975c51fc8237","toSide":"left","color":"4","label":"NO"},
+		{"id":"0815670e611103bc","fromNode":"3575975c51fc8237","fromSide":"right","toNode":"d46d7d8b19666935","toSide":"left","color":"4","label":"configure templates"},
+		{"id":"77b39b6275bc50f1","fromNode":"3575975c51fc8237","fromSide":"right","toNode":"3a94e07c7c8f5d12","toSide":"left","color":"4","label":"generate from template"},
+		{"id":"fdcd66ca1ae33404","fromNode":"d46d7d8b19666935","fromSide":"right","toNode":"c6b9837d0ecff3fa","toSide":"left","color":"4"},
+		{"id":"60eefc229abc207b","fromNode":"c6b9837d0ecff3fa","fromSide":"right","toNode":"d9993707c9d20d71","toSide":"left","color":"4"},
+		{"id":"7560c1421a059922","fromNode":"c6b9837d0ecff3fa","fromSide":"right","toNode":"04f18cf271fc8da6","toSide":"left","color":"4"},
+		{"id":"89095a7565ca1035","fromNode":"c6b9837d0ecff3fa","fromSide":"right","toNode":"22c18d61fd01618a","toSide":"left","color":"4"},
+		{"id":"72ed33014b664484","fromNode":"88cb8d7891db0429","fromSide":"right","toNode":"feb0f6eb3addd595","toSide":"left","color":"2"},
+		{"id":"f8f97664f00524cf","fromNode":"feb0f6eb3addd595","fromSide":"bottom","toNode":"3a94e07c7c8f5d12","toSide":"left","color":"2","label":"generate"},
+		{"id":"e8f4d528601547c5","fromNode":"feb0f6eb3addd595","fromSide":"bottom","toNode":"d9993707c9d20d71","toSide":"left","color":"2","label":"configure"},
+		{"id":"27e182d1c557e305","fromNode":"feb0f6eb3addd595","fromSide":"bottom","toNode":"04f18cf271fc8da6","toSide":"left","color":"2","label":"remove"}
+	]
+}
