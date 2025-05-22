@@ -30,15 +30,86 @@ You can run it anytime by calling `wizard` in your command line.
 
 ## Usage
 
+The wizard-generator can be used in two modes: interactive mode and command mode.
+
+### Interactive Mode
+
+Simply run `wizard` in your terminal to enter interactive mode:
+
 ```bash
-wizard [at any path you want to get started]
+wizard
 ```
 
-For CLI options, use the `-h` (or `--help`) argument:
+This will guide you through the available options with interactive prompts.
+
+### Command Mode
+
+Use specific commands to perform actions directly:
 
 ```bash
-wizard -h
+wizard <command> [options]
 ```
+
+### Help Command
+
+To see all available commands and options:
+
+```bash
+wizard help
+```
+
+## Command Reference
+
+### General Commands
+
+| Command | Description |
+|---------|-------------|
+| `wizard` | Launch interactive mode |
+| `wizard help` | Show usage information |
+
+### Template Management
+
+| Command | Description |
+|---------|-------------|
+| `wizard configure -n` | Configure a new template through an interactive prompt |
+| `wizard list -c` | List all configured templates with their identifiers |
+| `wizard list configured` | List all configured templates (alternative) |
+| `wizard list new` | List templates in template directory that haven't been configured yet |
+| `wizard remove <template-id>` | Remove a specific template by its identifier |
+| `wizard remove` | Remove a template through an interactive selection prompt |
+
+### File Generation
+
+| Command | Description |
+|---------|-------------|
+| `wizard generate <template-id>` | Generate files from the specified template |
+| `wizard generate -c` | Generate files from multiple templates combined (coming soon) |
+
+## Usage Examples
+
+1. **Configure a new template**:
+   ```bash
+   wizard configure -n
+   ```
+   Follow the prompts to set up a new template.
+
+2. **Generate files using a template**:
+   ```bash
+   wizard generate react-component
+   ```
+   This will use the "react-component" template to generate files.
+
+3. **List available templates**:
+   ```bash
+   wizard list -c
+   ```
+   Shows all templates that have been configured.
+
+4. **Interactive mode**:
+   ```bash
+   wizard
+   ```
+   Launches the wizard in interactive mode for a guided experience.
 
 ### Getting Started with Wizard
 
