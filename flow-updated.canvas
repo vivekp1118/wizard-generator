@@ -1,0 +1,59 @@
+{
+  "nodes":[
+    {"id":"cli_entry","type":"group","x":-840,"y":-705,"width":3280,"height":1800,"color":"6","label":"Wizard Generator CLI Flow"},
+    
+    {"id":"entry_point","type":"text","text":"# CLI Entry (index.js)\nprocess.argv → args","x":-820,"y":-680,"width":250,"height":60,"color":"5"},
+    {"id":"check_config","type":"text","text":"# isWizardConfigAvailable()?\nChecks if wizard.json exists","x":-500,"y":-685,"width":320,"height":60,"color":"3"},
+    
+    {"id":"wizard_setup","type":"text","text":"# wizardSetup()\n- Creates wizard.json\n- Creates templates directory\n- Exits process","x":-820,"y":-500,"width":300,"height":120,"color":"1"},
+    
+    {"id":"check_args","type":"text","text":"# args.length?\nChecks if arguments provided","x":-120,"y":-600,"width":250,"height":80,"color":"3"},
+    
+    {"id":"service_manager","type":"text","text":"# serviceManager(args)\nHandles CLI commands","x":200,"y":-780,"width":280,"height":60,"color":"4"},
+    {"id":"main_choice","type":"text","text":"# mainOperationChoice()\n- Show main operations choice\n- configure templates or generate from template","x":200,"y":-520,"width":360,"height":140,"color":"4"},
+    
+    {"id":"service_generate","type":"text","text":"## serviceManager: generate\n- If args[1] is -c: Combined generation [TODO]\n- Else: generateTemplateByIdentifier(args[1])\n  → getAllConfiguredTemplates()\n  → chooseDir()\n  → fileFolderGenerator()","x":580,"y":-880,"width":400,"height":160,"color":"2"},
+    {"id":"service_list","type":"text","text":"## serviceManager: list\n- If args[1] is -c or configured:\n  → getAllConfiguredTemplates() [print]\n- If args[1] is new:\n  → showNewTemplate() [print]","x":580,"y":-700,"width":400,"height":140,"color":"2"},
+    {"id":"service_configure","type":"text","text":"## serviceManager: configure\n- If args[1] is -n:\n  → configureNewTemplate()","x":580,"y":-540,"width":400,"height":100,"color":"2"},
+    {"id":"service_remove","type":"text","text":"## serviceManager: remove\n- If args[1]: removeTemplate(args[1])\n- Else: removeTemplate()\n  → Interactive prompt","x":580,"y":-420,"width":400,"height":120,"color":"2"},
+    {"id":"service_default","type":"text","text":"## serviceManager: default\n- showUsage()","x":580,"y":-280,"width":400,"height":60,"color":"2"},
+    
+    {"id":"choice_config","type":"text","text":"## Configure Templates\n- getConfigureChoices()\n  → Show configuration options","x":200,"y":-320,"width":360,"height":80,"color":"4"},
+    {"id":"choice_generate","type":"text","text":"## Generate from Template\n- getAllConfiguredTemplates()\n- chooseTemplate()\n- askConfirmation() for sub-directory\n- chooseDir() or use default\n- fileFolderGenerator()","x":200,"y":-200,"width":360,"height":180,"color":"4"},
+    
+    {"id":"perform_config","type":"text","text":"# performConfiguration(choice)\nHandles template configuration actions","x":640,"y":-120,"width":320,"height":60,"color":"5"},
+    
+    {"id":"config_new","type":"text","text":"## Configure New Template\n- configureNewTemplate()\n  → showNewTemplate()\n  → inquirer.prompt([template, name, dir])\n  → chooseDir() if needed\n  → askRecursive() for variables\n  → bindNewTemplate()\n  → getWizardConfigObject()\n  → updateWizardConfig()","x":1020,"y":-300,"width":400,"height":220,"color":"1"},
+    {"id":"config_remove","type":"text","text":"## Remove Template\n- removeTemplate()\n  → listAllConfiguredTemplates()\n  → inquirer.prompt([templateName])\n  → getWizardConfigObject()\n  → updateWizardConfig()","x":1020,"y":-50,"width":400,"height":160,"color":"1"},
+    {"id":"config_modify","type":"text","text":"## Modify Template\n- listAllConfiguredTemplates()\n- inquirer.prompt([templateName])\n- Return selected template","x":1020,"y":130,"width":400,"height":120,"color":"1"},
+    
+    {"id":"file_generator","type":"text","text":"# fileFolderGenerator(templateObj)\n- inquirer.prompt([vars])\n- getWizardConfigObject()\n- path.join(templatePath, templateLocation)\n- generateDirectoriesAndFile()","x":640,"y":250,"width":400,"height":140,"color":"5"},
+    {"id":"generate_dirs_files","type":"text","text":"# generateDirectoriesAndFile()\n- getFileDirectoryName()\n- For directories:\n  → fs.mkdirSync()\n  → Recursive call for children\n- For files:\n  → generateFileContentFromVariables()\n  → fs.writeFileSync()","x":1020,"y":300,"width":400,"height":180,"color":"5"},
+    {"id":"generate_content","type":"text","text":"# generateFileContentFromVariables()\n- Read template file\n- Replace <<variable>> placeholders\n- Return content","x":1480,"y":300,"width":400,"height":100,"color":"5"}
+  ],
+  "edges":[
+    {"id":"entry_to_check","fromNode":"entry_point","fromSide":"right","toNode":"check_config","toSide":"left"},
+    {"id":"check_to_setup","fromNode":"check_config","fromSide":"bottom","toNode":"wizard_setup","toSide":"top","color":"4","label":"No"},
+    {"id":"check_to_args","fromNode":"check_config","fromSide":"right","toNode":"check_args","toSide":"left","color":"4","label":"Yes"},
+    {"id":"args_to_service","fromNode":"check_args","fromSide":"top","toNode":"service_manager","toSide":"left","color":"4","label":"Yes"},
+    {"id":"args_to_choice","fromNode":"check_args","fromSide":"right","toNode":"main_choice","toSide":"left","color":"4","label":"No"},
+    
+    {"id":"service_to_generate","fromNode":"service_manager","fromSide":"right","toNode":"service_generate","toSide":"left","color":"2","label":"generate"},
+    {"id":"service_to_list","fromNode":"service_manager","fromSide":"right","toNode":"service_list","toSide":"left","color":"2","label":"list"},
+    {"id":"service_to_configure","fromNode":"service_manager","fromSide":"right","toNode":"service_configure","toSide":"left","color":"2","label":"configure"},
+    {"id":"service_to_remove","fromNode":"service_manager","fromSide":"right","toNode":"service_remove","toSide":"left","color":"2","label":"remove"},
+    {"id":"service_to_default","fromNode":"service_manager","fromSide":"right","toNode":"service_default","toSide":"left","color":"2","label":"default"},
+    
+    {"id":"main_to_config","fromNode":"main_choice","fromSide":"bottom","toNode":"choice_config","toSide":"top","color":"4","label":"configure templates"},
+    {"id":"main_to_generate","fromNode":"main_choice","fromSide":"bottom","toNode":"choice_generate","toSide":"top","color":"4","label":"generate from template"},
+    
+    {"id":"config_to_perform","fromNode":"choice_config","fromSide":"right","toNode":"perform_config","toSide":"left","color":"4"},
+    {"id":"perform_to_new","fromNode":"perform_config","fromSide":"top","toNode":"config_new","toSide":"left","color":"4","label":"configure new template"},
+    {"id":"perform_to_remove","fromNode":"perform_config","fromSide":"right","toNode":"config_remove","toSide":"left","color":"4","label":"remove template"},
+    {"id":"perform_to_modify","fromNode":"perform_config","fromSide":"bottom","toNode":"config_modify","toSide":"left","color":"4","label":"modify existing template"},
+    
+    {"id":"generate_to_file","fromNode":"choice_generate","fromSide":"right","toNode":"file_generator","toSide":"top","color":"4"},
+    {"id":"file_to_dirs","fromNode":"file_generator","fromSide":"right","toNode":"generate_dirs_files","toSide":"left","color":"5"},
+    {"id":"dirs_to_content","fromNode":"generate_dirs_files","fromSide":"right","toNode":"generate_content","toSide":"left","color":"5"}
+  ]
+}

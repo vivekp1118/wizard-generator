@@ -5,9 +5,7 @@ import { getAllConfiguredTemplates } from "./templates.js";
 export const generateTemplateByIdentifier = async (templateIdentifier) => {
     console.clear();
     const selectedTemplate = await getAllConfiguredTemplates().find(
-        (item) =>
-            item.templateName === templateIdentifier ||
-            item.templateCode === templateIdentifier
+        (item) => item.templateName === templateIdentifier || item.templateCode === templateIdentifier
     );
 
     if (!selectedTemplate) {

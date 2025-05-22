@@ -1,6 +1,5 @@
 import inquirer from "inquirer";
 import { listAllConfiguredTemplates } from "../templates.js";
-import { getWizardConfigObject } from "../wizard.js";
 import { configureNewTemplate } from "./configureNewTemplate.js";
 import { removeTemplate } from "../inquirer-common/removeTemplate.js";
 
@@ -23,16 +22,14 @@ export const performConfiguration = async (configureTemplateChoice) => {
                     type: "list",
                     name: "selectedTemplateName",
                     message: "select template to modify",
-                    choices: allTemplatesName
-                }
+                    choices: allTemplatesName,
+                },
             ])
             .then(({ selectedTemplateName }) => {
-                const index = allTemplates.findIndex(
-                    (item) => item.templateName === selectedTemplateName
-                );
+                const index = allTemplates.findIndex((item) => item.templateName === selectedTemplateName);
                 return {
                     index,
-                    templateDetails: allTemplates[index]
+                    templateDetails: allTemplates[index],
                 };
             });
 
